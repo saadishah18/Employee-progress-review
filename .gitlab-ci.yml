@@ -1,0 +1,18 @@
+stages:
+  - deploy
+deploy_employee_evaluation:
+  stage: deploy
+  tags:
+    - renesis-parse
+  script:
+    - cd /var/www/employee-evaluation
+    - sudo git pull
+    - sudo rm -rf node_modules
+    - sudo rm -r package-lock.json
+    - sudo npm i
+    - sudo npm run build
+    - sudo composer install
+    - sudo php artisan config:clear && sudo sed -i "s/production/local/g" .env
+    - sudo php artisan migrate && sudo sed -i "s/local/production/g" .env
+  only:
+    - staging

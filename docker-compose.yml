@@ -1,0 +1,40 @@
+version: '3.0'
+services:
+
+  #PHP Service
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: armughanmb/ea
+    container_name: app
+    restart: unless-stopped
+    tty: true
+    environment:
+      SERVICE_NAME: app
+      SERVICE_TAGS: dev
+    working_dir: /var/www/html/
+    volumes:
+      - ./:/var/www/html/
+#      - ./php/laravel.ini:/usr/local/etc/php/conf.d/laravel.ini 
+    ports:
+      - 9000:9000
+
+    #MySQL Service
+#  db:
+#    image: mysql
+    # NOTE: use of "mysql_native_password" is not recommended: https://dev.mysql.com/doc/refman/8.0/en/upgrading-from-previous-series.html#upgrade-caching-sha2-password
+    # (this is just an example, not intended to be a production configuration)
+#    command: 
+#      - --default-authentication-plugin=mysql_native_password
+#      - --lower_case_table_names=1
+#    restart: always
+#    environment:
+#      MYSQL_ROOT_PASSWORD: LhFMtc7fy2YHqS4r@!
+
+#    volumes:
+#      - ./dbdata/:/var/lib/mysql/
+#      - ./dbdata/:/etc/mysql/my.cnf
+#
+#    ports:
+#      - 9001:3306
